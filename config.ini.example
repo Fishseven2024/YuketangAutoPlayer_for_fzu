@@ -9,4 +9,4 @@
 headless = false
 course_url = https://在此填写你的课程URL
 cookie = 在此填写你的sessionid
-implicitly_wait = 10
+implicitly_wait = 30
