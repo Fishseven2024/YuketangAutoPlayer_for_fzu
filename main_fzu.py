@@ -3,7 +3,7 @@
 #只需要按原作者的说明加入url和cookie就可以用辣！
 #源代码是main.py
 #我只更改这一份代码的局部2-3个位置，命名为main_fzu.py
-
+#二次运行失败可能与没有杀后台+chrome版本不对有关
 
 '''
 Author: LetMeFly, Guo-Chenxu, Crsuh2er0, 420xincheng, tkzzzzzz6
@@ -113,8 +113,11 @@ option = webdriver.ChromeOptions()
 
 if IF_HEADLESS:
     option.add_argument('--headless')
+print(">>> 正在启动浏览器驱动...")
 
 driver = webdriver.Chrome(options=option)
+print(">>> 浏览器驱动启动成功！")
+
 driver.maximize_window()
 driver.implicitly_wait(IMPLICITLY_WAIT)
 IS_COMMONUI = False
