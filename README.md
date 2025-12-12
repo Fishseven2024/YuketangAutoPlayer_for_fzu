@@ -1,153 +1,20 @@
-<!--
- * @Author: LetMeFly
- * @Date: 2023-09-22 18:26:15
- * @LastEditors: LetMeFly.xyz
- * @LastEditTime: 2025-11-13 23:45:53
--->
-# YuketangAutoPlayer
+# 雨课堂公益助手 (FZU定制版)
 
-雨课堂刷课脚本（雨课堂视频自动播放），基于浏览器模拟的方式运行，无需虚拟机，甚至可以以无窗口模式运行。（MOOC）
+> **郑重声明：** 本项目基于 [YuketangAutoPlayer](https://github.com/Fishseven2024/YuketangAutoPlayer) 修改，遵循 LGPL-2.1 开源协议。
+> **仅供技术学习与交流，严禁用于任何商业用途。请在下载后 24 小时内删除。**
 
-视频演示地址：[Bilibili@BV15K4y1F7EN](https://www.bilibili.com/video/BV15K4y1F7EN/)
+## 📢 修改说明 (2025公益版)
+本项目由 **Fishseven2024** 维护，主要针对 FZU 环境进行了以下修复：
+1. 修复了登录失效的问题。
+2. 优化了自动播放逻辑。
+3. 移除了原版的失效功能，保持纯净。
 
-<!-- <iframe src="//player.bilibili.com/player.html?aid=873783562&bvid=BV15K4y1F7EN&cid=1275745338&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> -->
+## 🚀 如何使用
+1. 下载本项目代码。
+2. 安装 Python 3.x。
+3. 在终端运行：`pip install selenium`
+4. 运行脚本：`python main.py`
 
-[![](img/video-cover.jpg)](https://www.bilibili.com/video/BV15K4y1F7EN/)
-
-## 使用方法
-
-### 方式一：使用打包好的 exe 文件（推荐）
-
-1. 下载最新版本的 [`YuketangAutoPlayer.exe`](https://github.com/LetMeFly666/YuketangAutoPlayer/releases/download/v5.0/YuketangAutoPlayer.exe)
-2. 将 `YuketangAutoPlayer.exe` 放到任意目录
-3. 双击运行，首次运行会自动生成 `config.ini` 配置文件
-4. 编辑 `config.ini` 填写你的课程URL和Cookie（获取方式见下文）
-5. 再次运行即可开始自动播放
-
-### 方式二：从源码运行
-
-主要分为四步：
-
-1. 配置Python环境
-2. 配置浏览器驱动（推荐Chrome浏览器）
-3. 设置刷课信息
-4. 开始刷课
-
-### 一、配置Python环境
-
-使用 uv 包管理器（推荐）：
-
-```bash
-uv pip install selenium
-```
-
-或使用传统 pip：
-
-```bash
-pip install selenium
-```
-
-### 二、配置浏览器驱动
-
-本项目默认以Chrome为例，以Windows系统为例。其他浏览器原理类似、其他操作系统原理类似。
-
-首先电脑上要安装有[Chrome浏览器](https://www.google.cn/chrome/index.html)（别装到假的Chrome了，之前有同学装了个假Chrome后来问我为什么程序不能正常运行QAQ）
-
-其次需要下载**对应版本的**`ChromeDriver`：[下载地址1](https://chromedriver.chromium.org/downloads)、[下载地址2](https://googlechromelabs.github.io/chrome-for-testing/)、[下载地址3](https://github.com/LetMeFly666/YuketangAutoPlayer/releases/download/v0.0/chromedriver.exe)、[教程1](https://blog.csdn.net/fighting_jiang/article/details/116298853)、[教程2](https://blog.csdn.net/zhoukeguai/article/details/113247342)、[最后的尝试](https://cn.bing.com/search?q=chromedriver%E4%B8%8B%E8%BD%BD)。（版本相差不大的话也无所谓）
-
-将`ChromeDriver.exe`放到`环境变量`中 或 `脚本(执行)目录`下。
-
-### 三、设置刷课信息
-
-使用 `config.ini` 配置文件。首次运行脚本时会自动生成 `config.ini` ，也可以复制 `config.ini.example` 并重命名为 `config.ini`：
-
-```ini
-[Settings]
-headless = false
-course_url = 在此填写你的课程URL
-cookie = 在此填写你的sessionid
-implicitly_wait = 10
-```
-
-#### ① headless
-
-是否以无窗口模式运行。建议以有窗口模式运行（设置为 `false`）。
-
-若设置为 `true`，则不会弹出Chrome浏览器界面，但视频仍能正常刷取。
-
-#### ② course_url
-
-你要刷的课的URL。
-
-进入雨课堂，进入你想要刷的课程，点击“学习内容”，复制地址栏的url即可。
-
-![how-to-get-url](img/how-to-get-url.jpg)
-
-（注意是https格式的哦）
-
-#### ③ cookie
-
-**若你觉得COOKIE的获取比较麻烦，你可以选择[跳过这一步](#四开始刷课)并每次重新扫码登录。**扫码登录不支持HEADLESS模式。
-
-COOKIE用来告诉雨课堂你是你。获取方式如下：
-
-登录（你们学校的）雨课堂，`打开开发者工具`（下图的步骤1，也可百度），依次点击"应用→存储→Cookie→ https&#58;&#47;&#47;xxx.yuketang... "，复制**sessionid**对应的值
-
-![/how-to-get-cookie](img/how-to-get-cookie.jpg)
-
-### 四、开始刷课
-
-```python
-python main.py
-```
-
-## 打包为 EXE（可选）
-
-如果你想要打包成独立的可执行文件：
-
-### 准备工作
-
-1. 确保 `chromedriver.exe` 在项目根目录
-2. 安装 PyInstaller：
-```bash
-uv pip install pyinstaller
-```
-
-### 执行打包
-
-手动执行：
-
-```bash
-pyinstaller YuketangAutoPlayer.spec --clean
-```
-
-打包完成后，`dist` 目录下会生成 `YuketangAutoPlayer.exe`。该 exe 文件已内置 chromedriver，可以独立运行。
-
-## 使用提示
-
-注意，使用过程中可以缩浏览器小窗口去干其他事情，但尽量不要将鼠标移动到程序弹出的浏览器窗口上。因为本项目的运行原理就是模拟用户对浏览器的控制。
-
-**缓存**：若视频播放完毕程序正常结束，则缓存将被自动清理。若视频未播放完毕提前关掉了程序，则Windows系统下缓存位置在`%temp%/chrome_BITS_xxx`下。
-
-## 感谢列表
-
-+ 感谢[Github@SwordLikeRain](https://github.com/SwordLikeRain)的[Cookie错误时提示不准确的issue](https://github.com/LetMeFly666/YuketangAutoPlayer/issues/1)（good first issue），使得程序修改后支持了每次扫码登录。
-+ 感谢[BiliBili@Bacch](https://space.bilibili.com/21043185)的`AttributeError: 'WebDriver' object has no attribute 'find_elements_by_class_name'`的[报错提醒](https://www.bilibili.com/video/BV15K4y1F7EN/#reply187204230304)，使得程序修改后兼容了selenium≥4.0。
-+ 感谢[BiliBili@青鹧不懂蓝桉情](https://space.bilibili.com/1208020409)提供的账号，使得程序修改后支持了`www.yuketang.cn`这种域名下的雨课堂界面。
-+ 感谢[Github@420xincheng](https://github.com/420xincheng)的[没刷完视频，就自动退出的解决方法(#8)](https://github.com/LetMeFly666/YuketangAutoPlayer/issues/8)，播放完毕一个视频刷新后等待5秒防止页面暂未加载完成。
-+ 感谢[Github@Guo-Chenxu](https://github.com/Guo-Chenxu)的[`ifVideo`函数修改(#13)](https://github.com/LetMeFly666/YuketangAutoPlayer/issues/13)，更新COMMONUI下未播放视频的判断逻辑。
-+ 感谢[Github@泠辰](https://github.com/Crsuh2er0)的[已过期视频循环播放bugfix (#17)](https://github.com/LetMeFly666/YuketangAutoPlayer/pull/17)，修复了存在已过期视频时会重复播放已过期视频的问题。
-+ 感谢[Github@ke tan](https://github.com/tkzzzzzz6)的[exe打包文件方式(#18)](https://github.com/LetMeFly666/YuketangAutoPlayer/issues/18)，Windows当前新版Chrome可一键运行免除环境配置及驱动下载困扰。
-
-## TODO
-
-- [ ] 抽象一个获取待播放视频的函数([Suggest](https://github.com/LetMeFly666/YuketangAutoPlayer/pull/17#discussion_r2450825512)ed by Copilot)。
-
-
-## 免责声明
-
-本项目的唯一目的是：selenium技术的学习与实践。
-
-禁止用于其他用途，下载后请于24h内删除【Doge】。
-
-<small>若导致账号封禁（目前来看完全不会）或其他因BUG造成的损失，与本项目无关。</small>
+## 📜 开源协议
+本项目严格遵守 **LGPL-2.1** 协议。
+源码完全公开，欢迎任何人在此基础上进行改进（但必须保持开源）。
